@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>수어 녹화 및 저장</title>
+    <link rel="stylesheet" href="../../static/video/style.css">
+</head>
+<body>
+<h1>수어 동작을 녹화하면 글로스로 변환합니다</h1>
+<!-- 녹화 미리보기 -->
+<video id="preview" width="320" height="240" autoplay muted></video>
+<br/>
+<button id="startBtn" disabled>녹화 시작</button>
+<button id="stopBtn" disabled>녹화 종료</button>
+
+<h2>서버 저장 결과</h2>
+<div id="statusText">대기 중…</div>
+
+<h2>글로스</h2>
+<div id="gloss">출력중..</div>
+<script src="/static/video/recorder.js"></script>
+</body>
+</html>
