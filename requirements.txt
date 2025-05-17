@@ -1,0 +1,14 @@
+Django>=4.2
+djangorestframework~=3.16.0
+django-cors-headers
+
+# Computer Vision & AI
+numpy==1.26.4
+opencv-python
+mediapipe
+torch
+torchvision
+torchaudio
+
+# 이미지 처리 (Pillow)
+pillow
