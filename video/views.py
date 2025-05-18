@@ -1,17 +1,23 @@
-import os, uuid, tempfile, subprocess
+import os, uuid, tempfile, subprocess, json
 from pathlib import Path
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
-
 from posetest2.test_from_video import predict_sign_from_video
+from video.huggingFace import sentence_to_gloss
 
 
 # 1) 녹화 UI
 def index(request):
     return render(request, 'video/index.html')
+
+def sign2text(request):
+    return render(request, 'video/Sign2Text.html')
+
+def text2sign(request):
+    return render(request, 'video/Text2Sign.html')
 
 # 2) WebM → MP4 변환 후 저장
 @api_view(['POST'])
@@ -64,3 +70,18 @@ def upload_and_convert(request):
                          'idx': pred_idx,
                          'word': word
                          })
+
+@api_view(['POST'])
+def text_to_video(request):
+    try:
+        payload = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    text = payload.get('text', '')
+    gloss = sentence_to_gloss(text)
+    print(gloss)
+
+    # TODO: 글로스를 AI 모델에 넣고 결과 영상을 출력
+    fake_url = ''  # 예: '/media/videos/generated.mp4'
+    return JsonResponse({'url': fake_url})

@@ -3,5 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('sign2text/', views.sign2text, name='sign2text'),
+    path('text2sign/', views.text2sign, name='text2sign'),
     path('api/upload', views.upload_and_convert, name='video-upload'),
+    path('api/text-to-video', views.text_to_video, name='get-text'),
 ]
