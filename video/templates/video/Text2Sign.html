@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>텍스트 → MP4 변환</title>
+  <link rel="stylesheet" href="../../static/video/style.css">
+</head>
+<body>
+  <!-- ─── 헤더 네비게이션: Sign2Text / Text2Sign ─── -->
+  <header style="background:#fff;padding:10px 20px;border-bottom:1px solid #ddd;text-align:left;">
+    <a href="{% url 'sign2text' %}"
+       style="margin-right:16px;color:#4a90e2;text-decoration:none;font-weight:600;">
+      🎥 영상→글로스 변환
+    </a>
+    <a href="{% url 'text2sign' %}"
+       style="color:#4a90e2;text-decoration:none;font-weight:600;">
+      📝 텍스트→영상 변환
+    </a>
+  </header>
+
+  <h1>텍스트를 입력하면 수어 영상을 생성합니다</h1>
+
+  <div style="margin-bottom:16px;">
+    <input id="textInput"
+           type="text"
+           placeholder="변환할 텍스트를 입력하세요"
+           style="width:60%;padding:8px;font-size:1rem;border:1px solid #ccc;border-radius:4px;">
+    <button id="generateBtn" style="margin-left:8px;">변환하기</button>
+  </div>
+
+  <h2>출력 영상</h2>
+  <video id="outputVideo"
+         width="320"
+         height="240"
+         controls
+         style="border:3px solid #ddd;border-radius:8px;">
+    <!-- JS에서 소스 지정 -->
+  </video>
+
+  <script src="/static/video/Text2Sign.js"></script>
+</body>
+</html>
