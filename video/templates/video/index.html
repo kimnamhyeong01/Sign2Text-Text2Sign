@@ -4,20 +4,55 @@
     <meta charset="UTF-8" />
     <title>수어 녹화 및 저장</title>
     <link rel="stylesheet" href="../../static/video/style.css">
+    <style>
+    /* 페이지 최상단 공백 제거 */
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    /* 헤더 스타일: 최상단 고정, 중앙 정렬, 링크 간격 */
+    header {
+      padding: 15px 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+
+      display: flex;
+      justify-content: center;  /* 링크들을 가로 중앙에 */
+      align-items: center;      /* 세로 중앙에 */
+      gap: 50px;                /* 링크 간격 */
+    }
+    /* 헤더 링크 스타일 */
+    header a {
+      color: #4a90e2;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    header a:hover {
+      color: #336fae;
+    }
+  </style>
 </head>
+
 <body>
-<h1>수어 동작을 녹화하면 글로스로 변환합니다</h1>
-<!-- 녹화 미리보기 -->
-<video id="preview" width="320" height="240" autoplay muted></video>
-<br/>
-<button id="startBtn" disabled>녹화 시작</button>
-<button id="stopBtn" disabled>녹화 종료</button>
+<!-- ─── 헤더 네비게이션: Sign2Text / Text2Sign ─── -->
+  <header>
+      <a href="{% url 'home' %}"  style="font-size: 20px; font-weight: 600;">
+      SignBridge
+    </a>
+    <a href="{% url 'sign2text' %}">
+      🎥 수어 영상 → 단어
+    </a>
+    <a href="{% url 'text2sign' %}">
+      📝 문장 → 수어 영상
+    </a>
+  </header>
 
-<h2>서버 저장 결과</h2>
-<div id="statusText">대기 중…</div>
-
-<h2>글로스</h2>
-<div id="gloss">출력중..</div>
-<script src="/static/video/recorder.js"></script>
+<section id="comp-jnsvmi3w" class="comp-jnsvmi3w CohWsy wixui-column-strip"><div id="bgLayers_comp-jnsvmi3w" data-hook="bgLayers" data-motion-part="BG_LAYER comp-jnsvmi3w" class="if7Vw2 f0uTJH"><div data-testid="colorUnderlay" class="tcElKx i1tH8h"></div><div id="bgMedia_comp-jnsvmi3w" data-motion-part="BG_MEDIA comp-jnsvmi3w" class="wG8dni"><wow-image id="img_comp-jnsvmi3w" class="jhxvbR i1tH8h DXi4PB Yjj1af bgImage" data-image-info="{&quot;containerId&quot;:&quot;comp-jnsvmi3w&quot;,&quot;alignType&quot;:&quot;center&quot;,&quot;displayMode&quot;:&quot;fill&quot;,&quot;targetWidth&quot;:1928,&quot;targetHeight&quot;:814,&quot;isLQIP&quot;:true,&quot;encoding&quot;:&quot;AVIF&quot;,&quot;imageData&quot;:{&quot;width&quot;:3843,&quot;height&quot;:1756,&quot;uri&quot;:&quot;84770f_e101182c7e814564a66be5f731c803b9~mv2_d_3843_1756_s_2.png&quot;,&quot;name&quot;:&quot;&quot;,&quot;displayMode&quot;:&quot;fill&quot;}}" data-motion-part="BG_IMG comp-jnsvmi3w" data-bg-effect-name="" data-has-ssr-src="true"><img src="https://static.wixstatic.com/media/84770f_e101182c7e814564a66be5f731c803b9~mv2_d_3843_1756_s_2.png/v1/fill/w_1225,h_1018,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/84770f_e101182c7e814564a66be5f731c803b9~mv2_d_3843_1756_s_2.png" alt="" style="width: 980px; height: 10px; object-fit: cover; object-position: 50% 50%;" width="1928" height="814" data-ssr-src-done="true" fetchpriority="high"></wow-image></div></div><div data-testid="columns" class="V5AUxf LIhNy3"><!--$--><div id="comp-jnsvmi41" class="comp-jnsvmi41 YzqVVZ wixui-column-strip__column"><div id="bgLayers_comp-jnsvmi41" data-hook="bgLayers" data-motion-part="BG_LAYER comp-jnsvmi41" class="MW5IWV"><div data-testid="colorUnderlay" class="LWbAav Kv1aVt"></div><div id="bgMedia_comp-jnsvmi41" data-motion-part="BG_MEDIA comp-jnsvmi41" class="VgO9Yg"></div></div><div data-mesh-id="comp-jnsvmi41inlineContent" data-testid="inline-content" class=""><div data-mesh-id="comp-jnsvmi41inlineContent-gridContainer" data-testid="mesh-container-content"><div data-mesh-id="comp-jnsvmi44-rotated-wrapper"><!--$--><div id="comp-jnsvmi44" class="MazNVa comp-jnsvmi44 wixui-image"><div data-testid="linkElement" class="j7pOnl"><wow-image id="img_comp-jnsvmi44" class="jhxvbR BI8PVQ" data-image-info="{&quot;containerId&quot;:&quot;comp-jnsvmi44&quot;,&quot;displayMode&quot;:&quot;fill&quot;,&quot;targetWidth&quot;:211,&quot;targetHeight&quot;:86,&quot;isLQIP&quot;:false,&quot;encoding&quot;:&quot;AVIF&quot;,&quot;imageData&quot;:{&quot;width&quot;:483,&quot;height&quot;:201,&quot;uri&quot;:&quot;c22c23_a0493ec790784b269e3ac17dddacfc9c~mv2.png&quot;,&quot;name&quot;:&quot;small pencil.png&quot;,&quot;displayMode&quot;:&quot;fill&quot;}}" data-motion-part="BG_IMG comp-jnsvmi44" data-bg-effect-name="" data-has-ssr-src=""><img src="https://static.wixstatic.com/media/c22c23_a0493ec790784b269e3ac17dddacfc9c~mv2.png/v1/fill/w_264,h_108,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/small%20pencil.png" alt="" style="width:211px;height:86px;object-fit:cover" width="211" height="86" srcset="https://static.wixstatic.com/media/c22c23_a0493ec790784b269e3ac17dddacfc9c~mv2.png/v1/fill/w_264,h_108,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/small%20pencil.png" fetchpriority="high"></wow-image></div></div><!--/$--></div><!--$--><div id="comp-jnsvmi461" class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-jnsvmi461 wixui-rich-text" data-testid="richTextElement" ariaattributes="[object Object]"><h1 class="font_0 wixui-rich-text__text" style="font-size:55px; line-height:1.3em;">SignBridge와 함께<br class="wixui-rich-text__text">
+수어를 배워보세요<br class="wixui-rich-text__text">
+<br class="wixui-rich-text__text">
+</h1></div><!--/$--><!--$--><div id="comp-maw9c826" class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-maw9c826 wixui-rich-text" data-testid="richTextElement" ariaattributes="[object Object]"><h2 class="font_2 wixui-rich-text__text" style="font-size:31px;"><span style="font-size:31px;" class="wixui-rich-text__text"><span style="color:#000000;" class="wixui-rich-text__text"><span style="font-style:normal;" class="wixui-rich-text__text"><span style="font-family:poppins-semibold,poppins,sans-serif;" class="wixui-rich-text__text"><span style="font-weight:400;" class="wixui-rich-text__text">SignBridge는 AI를 활용하여<br class="wixui-rich-text__text">
+수어에서 단어로,<br class="wixui-rich-text__text">
+문장을 수어로 바꿔줍니다</span></span></span></span></span></h2></div><!--/$--></div></div></div><!--/$--><!--$--><div id="comp-jnsvmi4m" class="comp-jnsvmi4m YzqVVZ wixui-column-strip__column"><div id="bgLayers_comp-jnsvmi4m" data-hook="bgLayers" data-motion-part="BG_LAYER comp-jnsvmi4m" class="MW5IWV"><div data-testid="colorUnderlay" class="LWbAav Kv1aVt"></div><div id="bgMedia_comp-jnsvmi4m" data-motion-part="BG_MEDIA comp-jnsvmi4m" class="VgO9Yg"></div></div><div data-mesh-id="comp-jnsvmi4minlineContent" data-testid="inline-content" class=""><div data-mesh-id="comp-jnsvmi4minlineContent-gridContainer" data-testid="mesh-container-content"><!--$--><div id="comp-jnsvmi4o" class="comp-jnsvmi4o mDzRgi QodGTM ignore-focus wixui-slideshow" role="region" tabindex="-1" aria-label="슬라이드쇼"><div data-testid="shadowLayer" class="N2NGoO"></div><div data-testid="slidesWrapper" aria-live="polite" class="hDJzl4"><!--$--><div id="comp-jnsvmi4t" class="comp-jnsvmi4t imK94d"><div id="bgLayers_comp-jnsvmi4t" data-hook="bgLayers" data-motion-part="BG_LAYER comp-jnsvmi4t" class="MW5IWV eF_jBL"><div data-testid="colorUnderlay" class="LWbAav Kv1aVt"></div><div id="bgMedia_comp-jnsvmi4t" data-motion-part="BG_MEDIA comp-jnsvmi4t" class="VgO9Yg"></div></div><div class="wfm0FO"></div><div data-mesh-id="comp-jnsvmi4tinlineContent" data-testid="inline-content" class=""><div data-mesh-id="comp-jnsvmi4tinlineContent-gridContainer" data-testid="mesh-container-content"><!--$--><div id="comp-jnsvmi4w" class="MazNVa comp-jnsvmi4w wixui-image"><div data-testid="linkElement" class="j7pOnl"><wow-image id="img_comp-jnsvmi4w" class="jhxvbR BI8PVQ" data-image-info="{&quot;containerId&quot;:&quot;comp-jnsvmi4w&quot;,&quot;displayMode&quot;:&quot;fill&quot;,&quot;targetWidth&quot;:479,&quot;targetHeight&quot;:428,&quot;isLQIP&quot;:false,&quot;encoding&quot;:&quot;AVIF&quot;,&quot;imageData&quot;:{&quot;width&quot;:1064,&quot;height&quot;:914,&quot;uri&quot;:&quot;c22c23_788d13b596bc4ec1840170c3e66d42e5~mv2.png&quot;,&quot;name&quot;:&quot;a.png&quot;,&quot;displayMode&quot;:&quot;fill&quot;,&quot;crop&quot;:{&quot;x&quot;:93,&quot;y&quot;:78,&quot;width&quot;:922,&quot;height&quot;:836}}}" data-motion-part="BG_IMG comp-jnsvmi4w" data-bg-effect-name="" data-has-ssr-src=""><img src="https://static.wixstatic.com/media/c22c23_788d13b596bc4ec1840170c3e66d42e5~mv2.png/v1/crop/x_93,y_78,w_922,h_836/fill/w_599,h_535,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a.png" alt="" style="width:479px;height:428px;object-fit:cover" width="479" height="428" srcset="https://static.wixstatic.com/media/c22c23_788d13b596bc4ec1840170c3e66d42e5~mv2.png/v1/crop/x_93,y_78,w_922,h_836/fill/w_599,h_535,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a.png" fetchpriority="high"></wow-image></div></div><!--/$--></div></div></div><!--/$--></div></div><!--/$--></div></div></div><!--/$--></div></section>
 </body>
 </html>

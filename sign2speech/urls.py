@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', include('video.urls')),
-    path('', TemplateView.as_view(template_name='video/Sign2Text.html'), name='sign2text'),
+    path('', TemplateView.as_view(template_name='video/index.html'), name='home'),
     path('sign2text', TemplateView.as_view(template_name='video/Sign2Text.html'), name='sign2text'),
     path('text2sign', TemplateView.as_view(template_name='video/Text2Sign.html'), name='text2sign'),
 ]

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>텍스트 → MP4 변환</title>
-  <link rel="stylesheet" href="../../static/video/style.css">
+    <meta charset="UTF-8" />
+    <title>수어 녹화 및 저장</title>
+    <link rel="stylesheet" href="../../static/video/style.css">
     <style>
-    /* 페이지 최상단 공백 제거 */
     body {
       margin: 0;
       padding: 0;
@@ -33,7 +32,9 @@
     }
   </style>
 </head>
+
 <body>
+<!-- ─── 헤더 네비게이션: Sign2Text / Text2Sign ─── -->
   <header>
     <a href="{% url 'sign2text' %}">
       🎥 수어 영상 → 글로스
@@ -43,25 +44,19 @@
     </a>
   </header>
 
-  <h1>텍스트를 입력하면 수어 영상을 생성합니다</h1>
 
-  <div style="margin-bottom:16px;">
-    <input id="textInput"
-           type="text"
-           placeholder="변환할 텍스트를 입력하세요"
-           style="width:60%;padding:8px;font-size:1rem;border:1px solid #ccc;border-radius:4px;">
-    <button id="generateBtn" style="margin-left:8px;">변환하기</button>
-  </div>
+<h1>수어 동작을 녹화하면 단어로 변환합니다</h1>
+<!-- 녹화 미리보기 -->
+<video id="preview" width="320" height="240" autoplay muted></video>
+<br/>
+<button id="startBtn" disabled>녹화 시작</button>
+<button id="stopBtn" disabled>녹화 종료</button>
 
-  <h2>출력 영상</h2>
-  <video id="outputVideo"
-         width="320"
-         height="240"
-         controls
-         style="border:3px solid #ddd;border-radius:8px;">
-    <!-- JS에서 소스 지정 -->
-  </video>
+<h2>서버 저장 결과</h2>
+<div id="statusText">대기 중…</div>
 
-  <script src="/static/video/Text2Sign.js"></script>
+<h2>단어</h2>
+<div id="gloss">출력중..</div>
+<script src="/static/video/recorder.js"></script>
 </body>
 </html>
