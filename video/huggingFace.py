@@ -1,4 +1,6 @@
 from openai import OpenAI
+import re
+import ast
 
 client = OpenAI(
     base_url="https://router.huggingface.co/nebius/v1",
@@ -30,5 +32,7 @@ def sentence_to_gloss(sentence: str):
         temperature=0.2
     )
 
-    # 정답 위치
-    return response.choices[0].message.content.strip()
+    match = re.search(r'</think>\s*(\[[^\]]*\])', response.choices[0].message.content.strip(), re.MULTILINE)
+    list_literal = match.group(1)
+    result_list = ast.literal_eval(list_literal)  # 문자열→리스트
+    return result_list
