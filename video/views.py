@@ -7,7 +7,8 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from posetest2.test_from_video import predict_sign_from_video
 from video.huggingFace import sentence_to_gloss
-
+from .models import SignVideo
+from django.db.models import Q
 
 # 1) 녹화 UI
 def index(request):
@@ -71,17 +72,34 @@ def upload_and_convert(request):
                          'word': word
                          })
 
+
 @api_view(['POST'])
 def text_to_video(request):
     try:
         payload = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
-
     text = payload.get('text', '')
-    gloss = sentence_to_gloss(text)
-    print(gloss)
-
-    # TODO: 글로스를 AI 모델에 넣고 결과 영상을 출력
-    fake_url = ''  # 예: '/media/videos/generated.mp4'
-    return JsonResponse({'url': fake_url})
+    gloss_list = sentence_to_gloss(text)
+    all_videos = []
+    for gloss in gloss_list:
+        match = SignVideo.objects.filter(gloss__icontains=gloss)
+        for video in match:
+            all_videos.append(video)
+    seen_ids = set()
+    unique_videos = []
+    for v in all_videos:
+        if v.id not in seen_ids:
+            unique_videos.append(v)
+            seen_ids.add(v.id)
+    # 결과를 리스트로 직렬화
+    results = []
+    for video in unique_videos:
+        results.append({
+            'gloss': video.gloss,
+            'signVideoUrl': video.sign_video_url,
+            'signDescription': video.sign_description,
+            'signImages': video.sign_images,
+        })
+    print(results)
+    return JsonResponse({'results': results})
