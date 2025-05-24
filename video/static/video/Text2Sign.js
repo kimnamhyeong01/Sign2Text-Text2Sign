@@ -20,11 +20,32 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ text })
       });
       if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      const data = await res.json();
+      console.log(data);
+      const videoList = data.results; // 배열 [{gloss, signVideoUrl, signDescription, signImages}, ...]
+      const videoSources = videoList.map(item => item.signVideoUrl);
+      const descriptions = videoList.map(item => item.signDescription);
+      const images = videoList.map(item => item.signImages);
+      console.log(videoList);
+      let currentIndex = 0;
 
-      const { url } = await res.json();
-      outputVideo.src = url;
-      outputVideo.load();
-      outputVideo.play();
+      function playNextVideo() {
+        if (currentIndex < videoSources.length) {
+          outputVideo.src = videoSources[currentIndex];
+          // 해당 인덱스의 설명과 이미지를 업데이트
+          document.getElementById('description').innerText = descriptions[currentIndex];
+          document.getElementById('signImage').src = images[currentIndex];
+          outputVideo.play();
+          currentIndex++;
+        }
+      }
+      // 이전에 등록된 ended 이벤트가 있다면 제거
+      outputVideo.removeEventListener('ended', playNextVideo);
+      // 비디오가 끝날 때마다 다음 동영상 재생
+      outputVideo.addEventListener('ended', playNextVideo);
+
+      // 첫 번째 비디오부터 시작
+      playNextVideo();
 
     } catch (err) {
       console.error(err);
