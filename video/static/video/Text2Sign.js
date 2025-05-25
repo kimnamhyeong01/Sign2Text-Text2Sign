@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       function playNextVideo() {
         if (currentIndex < videoSources.length) {
           outputVideo.src = videoSources[currentIndex];
+          outputVideo.playbackRate = 0.6  ;
           // 해당 인덱스의 설명과 이미지를 업데이트
           document.getElementById('description').innerText = descriptions[currentIndex];
           document.getElementById('signImage').src = images[currentIndex];
