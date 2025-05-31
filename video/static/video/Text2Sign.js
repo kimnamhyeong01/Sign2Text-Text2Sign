@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(data);
       const videoList = data.results; // 배열 [{gloss, signVideoUrl, signDescription, signImages}, ...]
       const videoSources = videoList.map(item => item.signVideoUrl);
-      const descriptions = videoList.map(item => item.signDescription);
-      const images = videoList.map(item => item.signImages);
+      const descriptions = videoList.map(item => item.signDescription !== '' ? item.signDescription:"설명 없음");
+      const images = videoList.map(item => item.signImages !== '' ? item.signImages : "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg");
       console.log(videoList);
       let currentIndex = 0;
 
       function playNextVideo() {
         if (currentIndex < videoSources.length) {
           outputVideo.src = videoSources[currentIndex];
-          outputVideo.playbackRate = 0.6  ;
+          outputVideo.playbackRate = 0.6;
           // 해당 인덱스의 설명과 이미지를 업데이트
           document.getElementById('description').innerText = descriptions[currentIndex];
           document.getElementById('signImage').src = images[currentIndex];
