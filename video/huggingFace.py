@@ -35,4 +35,5 @@ def sentence_to_gloss(sentence: str):
     match = re.search(r'</think>\s*(\[[^\]]*\])', response.choices[0].message.content.strip(), re.MULTILINE)
     list_literal = match.group(1)
     result_list = ast.literal_eval(list_literal)  # 문자열→리스트
+    print(result_list)
     return result_list

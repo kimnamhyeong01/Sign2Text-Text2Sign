@@ -101,5 +101,4 @@ def text_to_video(request):
             'signDescription': video.sign_description,
             'signImages': video.sign_images,
         })
-    print(results)
     return JsonResponse({'results': results})
