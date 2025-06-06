@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = '/static/video/style.css';  // 경로가 맞는지 확인하세요
+  link.href = '/static/video/style.css';
   document.head.appendChild(link);
 
   const preview = document.getElementById('preview');
   const startBtn = document.getElementById('startBtn');
   const stopBtn = document.getElementById('stopBtn');
+  const outputBtn = document.getElementById('outputBtn');
   const statusText = document.getElementById('statusText');
+  const sentenceResult = document.getElementById('sentenceResult');
   let mediaRecorder, chunks = [];
 
   async function initCamera() {
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => statusText.innerText = '업로드 오류: ' + err.message);
   }
+
   startBtn.addEventListener('click', () => {
     if (mediaRecorder.state==='inactive') {
       mediaRecorder.start(); startBtn.disabled=true; stopBtn.disabled=false; statusText.innerText='녹화 중…';
@@ -62,6 +65,22 @@ document.addEventListener('DOMContentLoaded', () => {
       mediaRecorder.stop(); startBtn.disabled=false; stopBtn.disabled=true;
     }
   });
+
+  // 출력 버튼 클릭 시 저장된 글로스를 문장으로 변환하는 api 호출
+  outputBtn.addEventListener('click', () => {
+    sentenceResult.innerText = '처리 중…';
+    fetch('/api/output_gloss')
+      .then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          sentenceResult.innerText = json.error;
+        } else {
+          sentenceResult.innerText = json.sentence;
+        }
+      })
+      .catch(err => sentenceResult.innerText = '오류 발생: ' + err.message);
+  });
+
   initCamera();
 });
 

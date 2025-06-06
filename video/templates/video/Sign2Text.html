@@ -45,18 +45,23 @@
   </header>
 
 
-<h1>수어 동작을 녹화하면 단어로 변환합니다</h1>
+<h1>수어 동작을 녹화하면 문장으로 변환합니다</h1>
 <!-- 녹화 미리보기 -->
 <video id="preview" width="320" height="240" autoplay muted></video>
 <br/>
 <button id="startBtn" disabled>녹화 시작</button>
 <button id="stopBtn" disabled>녹화 종료</button>
+<button id="outputBtn">문장 출력</button>
 
 <h2>서버 저장 결과</h2>
 <div id="statusText">대기 중…</div>
 
 <h2>단어</h2>
 <div id="gloss">출력중..</div>
+
+<h2>최종 문장</h2>
+<div id="sentenceResult">—</div>
+
 <script src="/static/video/recorder.js"></script>
 </body>
 </html>
