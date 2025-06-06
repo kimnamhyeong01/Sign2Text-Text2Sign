@@ -7,6 +7,34 @@ client = OpenAI(
     api_key="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",
 )
 
+def gloss_to_sentence(gloss_list: list) -> str:
+    prompt = f"""
+    아래 글로스 리스트를 기반으로 올바른 한국어 문장을 만들어줘.
+    
+    아래 조건을 반드시 지켜줘:
+    1. 추가 설명이나 태그 없이 오직 문장만 출력해줘.
+    2. 문장은 자연스럽고 의미가 통하는 한국어로 만들어줘.
+    글로스: {gloss_list}
+
+    문장:
+    """
+    response = client.chat.completions.create(
+        model="Qwen/Qwen3-4B-fast",
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.2
+    )
+    content = response.choices[0].message.content.strip()
+
+    cleaned = re.sub(r'<think>.*?</think>', '', content, flags=re.S).strip()
+
+    result_sentence = cleaned.splitlines()[0].strip()
+
+    print("sentence : " + result_sentence)
+
+    return result_sentence
+
 def sentence_to_gloss(sentence: str):
     prompt = f"""
     아래 문장을 수어 번역용 글로스(gloss) 리스트로 변환해줘.
