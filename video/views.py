@@ -1,4 +1,4 @@
-import os, uuid, tempfile, subprocess, json
+import os, uuid, tempfile, subprocess, json, traceback
 from pathlib import Path
 from django.conf import settings
 from django.shortcuts import render
@@ -6,9 +6,11 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from posetest2.test_from_video import predict_sign_from_video
-from video.huggingFace import sentence_to_gloss
+from video.huggingFace import sentence_to_gloss, gloss_to_sentence
 from .models import SignVideo
-from django.db.models import Q
+import whisper
+
+model = whisper.load_model("base")
 
 # 1) 녹화 UI
 def index(request):
@@ -65,12 +67,35 @@ def upload_and_convert(request):
     os.remove(input_path)
     pred_idx, word = predict_sign_from_video("C:/Users/유준혁/PycharmProjects/pose_transformer_finetuning/media/mp4/" + saved_name)
 
-    # JSON 응답
-    return JsonResponse({'status': 'saved',
-                         'filename': saved_name,
-                         'idx': pred_idx,
-                         'word': word
-                         })
+    # 쿠키에 글로스 저장(쿠키에 저장된 값이 없으면 빈 리스트 생성)
+    stored_json = request.COOKIES.get('stored_glosses', '[]')
+    try:
+        stored = json.loads(stored_json)
+    except json.JSONDecodeError:
+        stored = []
+    stored.append(word)
+
+    # JSON 응답 작성 및 쿠키 설정
+    response = JsonResponse({'status': 'saved',
+                             'filename': saved_name,
+                             'idx': pred_idx,
+                             'word': word})
+    response.set_cookie('stored_glosses', json.dumps(stored), httponly=False, path='/')
+    return response
+
+@api_view(['GET'])
+def output_gloss(request):
+    stored_json = request.COOKIES.get('stored_glosses')
+    if not stored_json:
+        return JsonResponse({'error': '저장된 글로스가 없습니다.'}, status=400)
+    try:
+        stored = json.loads(stored_json)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': '잘못된 쿠키 데이터입니다.'}, status=400)
+    final_sentence = gloss_to_sentence(stored)
+    response = JsonResponse({'sentence': final_sentence})
+    response.delete_cookie('stored_glosses')
+    return response
 
 
 @api_view(['POST'])
@@ -102,3 +127,33 @@ def text_to_video(request):
             'signImages': video.sign_images,
         })
     return JsonResponse({'results': results})
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser])
+def audio_to_text(request):
+    audio_file = request.FILES.get('audio')
+    if not audio_file:
+        return JsonResponse({'error': 'No audio uploaded'}, status=400)
+
+    audio_temp_dir = Path('C:/Users/유준혁/PycharmProjects/pose_transformer_finetuning/media/temp')
+    audio_temp_dir.mkdir(parents=True, exist_ok=True)
+
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+        for chunk in audio_file.chunks():
+            tmp.write(chunk)
+        tmp.flush()
+        tmp_path = tmp.name
+        print(tmp_path)
+    try:
+        result = model.transcribe(tmp_path, language ='ko')
+        text = result.get("text", "")
+
+    except Exception as e:
+        traceback.print_exc()
+        return JsonResponse({'error': f"Whisper error: {str(e)}"}, status=500)
+    finally:
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
+
+    return JsonResponse({'text': text})
