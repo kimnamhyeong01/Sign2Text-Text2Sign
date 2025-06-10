@@ -8,6 +8,7 @@ from rest_framework.parsers import MultiPartParser
 from posetest2.test_from_video import predict_sign_from_video
 from video.huggingFace import sentence_to_gloss, gloss_to_sentence
 from .models import SignVideo
+from video.skeleton_test import run_score_comparison_from_url
 import whisper
 
 model = whisper.load_model("base")
@@ -157,3 +158,38 @@ def audio_to_text(request):
             os.remove(tmp_path)
 
     return JsonResponse({'text': text})
+
+
+@api_view(['GET'])
+def compare_sign_by_url(request):
+    gloss = request.GET.get('gloss', '똑같다')
+    video = SignVideo.objects.filter(gloss=gloss).first()
+    if not video:
+        return JsonResponse({'error': '해당 글로스에 대한 영상이 없습니다'}, status=404)
+
+    video_url = video.sign_video_url
+    score, message = run_score_comparison_from_url(video_url)
+    return JsonResponse({'score': score, 'message': message})
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser])
+def upload_and_compare(request):
+    gloss = request.GET.get('gloss')
+    video_file = request.FILES.get('video')
+    if not video_file:
+        return JsonResponse({'error': '비디오 파일이 없습니다'}, status=400)
+
+    # 저장 경로
+    save_path = os.path.join(settings.MEDIA_ROOT, 'compare_input.mp4')
+    with open(save_path, 'wb') as f:
+        for chunk in video_file.chunks():
+            f.write(chunk)
+
+    # 비교 대상 영상 URL (DB에서 해당 gloss 찾기)
+    video = SignVideo.objects.filter(gloss=gloss).first()
+    if not video:
+        return JsonResponse({'error': '해당 글로스에 대한 정답 영상이 없습니다'}, status=404)
+
+    # 유사도 평가 함수 실행
+    score, message = run_score_comparison_from_url(video.sign_video_url, user_video_path=save_path)
+    return JsonResponse({'score': score, 'message': message})

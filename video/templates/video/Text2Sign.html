@@ -15,7 +15,6 @@
       padding: 10px 20px;
       background-color: #fff;
       border-bottom: 1px solid #ddd;
-
       display: flex;
       justify-content: center;  /* 링크들을 가로 중앙에 */
       align-items: center;      /* 세로 중앙에 */
@@ -31,6 +30,12 @@
     header a:hover {
       color: #336fae;
     }
+    #statusMessage {
+      font-size: 1.2rem;
+      color: #d2691e;
+      margin: 10px 0;
+    }
+
   </style>
 </head>
 <body>
@@ -71,6 +76,70 @@
 <img id="signImage"
      style="max-width:300px; border:1px solid #ccc; border-radius:6px;"
 >
+
+   <h2>유사도 비교(3초 안에 해주세요)</h2>
+  <div style="margin-bottom:16px;">
+    <input id="glossInput" type="text" placeholder="비교할 글로스를 입력하세요 (예: 똑같다)"
+           style="width:40%;padding:6px;font-size:1rem;border:1px solid #ccc;border-radius:4px;">
+    <button onclick="startComparison()" style="margin-left:8px;">유사도 측정 시작</button>
+  </div>
+
+  <video id="webcamVideo" autoplay muted width="320" height="240"
+         style="border:3px solid #ccc; border-radius:8px; margin-bottom:10px;"></video>
+  <p id="statusMessage"> </p>
+  <p id="result" style="font-size:1.1rem; color:#333;"></p>
+
+  <script>
+    let mediaRecorder;
+    let recordedChunks = [];
+
+    async function startComparison() {
+      const gloss = document.getElementById("glossInput").value || "똑같다";
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const videoElement = document.getElementById('webcamVideo');
+      videoElement.srcObject = stream;
+
+      const statusMsg = document.getElementById('statusMessage');
+      statusMsg.innerText = "⏳ 3초 뒤 녹화 시작합니다...";
+
+      // 카운트다운 3초
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      statusMsg.innerText = "🎬 녹화 중입니다...";
+
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+
+      mediaRecorder.ondataavailable = e => recordedChunks.push(e.data);
+
+      mediaRecorder.onstop = async () => {
+        statusMsg.innerText = "✅ 녹화 완료! 분석 중...";
+
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const formData = new FormData();
+        formData.append('video', blob, 'user_video.webm');
+
+        const uploadRes = await fetch(`/api/upload_compare?gloss=${encodeURIComponent(gloss)}`, {
+          method: 'POST',
+          body: formData
+        });
+        const result = await uploadRes.json();
+
+        if (result.error) {
+          document.getElementById("result").innerText = result.error;
+        } else {
+          document.getElementById("result").innerText =
+            `점수: ${result.score}점 (${result.message})`;
+        }
+
+        statusMsg.innerText = "";
+        stream.getTracks().forEach(track => track.stop());  // 스트림 종료
+      };
+
+      mediaRecorder.start();
+      setTimeout(() => mediaRecorder.stop(), 4000); // 4초 녹화
+    }
+  </script>
+
   <script src="/static/video/Text2Sign.js"></script>
 </body>
 </html>

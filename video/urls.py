@@ -9,4 +9,6 @@ urlpatterns = [
     path('api/text-to-video', views.text_to_video, name='get-text'),
     path('api/audio-to-text', views.audio_to_text, name='audio-to-text'),
     path('api/output_gloss', views.output_gloss, name='output-gloss'),
+    path('api/compare/', views.compare_sign_by_url, name='compare-sign'), #1
+    path('api/upload_compare', views.upload_and_compare, name='upload-and-compare'),
 ]
