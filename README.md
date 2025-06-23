@@ -14,7 +14,7 @@
  ![MySQL](https://img.shields.io/badge/MySQL-8.0-005C84?logo=mysql&logoColor=white)
 
 ## ✅ 서비스 기능
-1. 웹캠으로 수어를 녹화하면 수어 결과를 텍스트로 출력
+### 1. 웹캠으로 수어를 녹화하면 수어 결과를 텍스트로 출력
 
 https://github.com/user-attachments/assets/5fac238f-ed04-444c-b2fd-9f3595d6dc78
 
@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/5fac238f-ed04-444c-b2fd-9f3595d6dc78
   3. 생성된 MP4 파일을 파인튜닝된 Pose Transformer AI 모델에 입력합니다.
   4. AI가 출력한 글로스(단어)를 웹 화면에 표시합니다.
      
-2. 텍스트를 입력하면 수어 영상 결과를 출력
+### 2. 텍스트를 입력하면 수어 영상 결과를 출력
 
 https://github.com/user-attachments/assets/3b36fae7-8b23-416a-af9e-7068ae2afbff
    
