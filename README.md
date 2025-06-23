@@ -1,9 +1,9 @@
 # 양방향 수어 번역 서비스
 
 ## 👩🏻‍💻 팀원
-- 김남형 : AI 파인 튜닝 (Text to Sign)
-- 유준혁 : 웹 서버 및 프론트엔드 개발
-- 최우진 : 수어 영상 인식 AI Pose Transformer 파인 튜닝 (Sign to Text)
+- 김남형(AI) : AI 파인 튜닝 (Text to Sign)
+- 유준혁(WEB) : 파인튜닝된 AI 모델을 백엔드에 통합하여 서버 로직과 연결하고, 웹 프론트엔드와 연동
+- 최우진(AI) : 수어 영상 인식 AI Pose Transformer 파인 튜닝 (Sign to Text)
 
 ## 🛠 기술 스택
  ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
