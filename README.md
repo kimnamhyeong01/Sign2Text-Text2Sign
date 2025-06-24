@@ -1,6 +1,10 @@
 # 양방향 수어 번역 서비스
 
 ## 👩🏻‍💻 팀원
+|[김남형](https://github.com/kimnamhyeong01)|[유준혁](https://github.com/ericyoo0107)|[최우진](https://github.com/wxxwls)|
+|:-:|:-:|:-:|
+|<img src="https://avatars.githubusercontent.com/u/119601427?v=4" alt="김남형" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/65710954?v=4" alt="유준혁" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/131441769?v=4" alt="최우진" width="150" height="150">|
+
 - 김남형(AI) : AI 파인 튜닝 (Text to Sign)
 - 유준혁(WEB) : 파인튜닝된 AI 모델을 백엔드에 통합하여 서버 로직과 연결하고, 웹 프론트엔드와 연동
 - 최우진(AI) : 수어 영상 인식 AI Pose Transformer 파인 튜닝 (Sign to Text)
