@@ -5,10 +5,6 @@
 |:-:|:-:|:-:|
 |<img src="https://avatars.githubusercontent.com/u/119601427?v=4" alt="김남형" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/65710954?v=4" alt="유준혁" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/131441769?v=4" alt="최우진" width="150" height="150">|
 
-- 김남형(AI) : AI 파인 튜닝 (Text to Sign)
-- 유준혁(WEB) : 파인튜닝된 AI 모델을 백엔드에 통합하여 서버 로직과 연결하고, 웹 프론트엔드와 연동
-- 최우진(AI) : 수어 영상 인식 AI Pose Transformer 파인 튜닝 (Sign to Text)
-
 ## 🛠 기술 스택
  ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
  ![Django](https://img.shields.io/badge/Django-4.2-092E20?logo=django&logoColor=white)
